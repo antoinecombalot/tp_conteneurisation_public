@@ -1,0 +1,6 @@
+services:
+  react-app:
+    image: antoinecombalot/react-hello:v2
+    ports:
+      - "3000:5173"
+    container_name: mon-react-hello

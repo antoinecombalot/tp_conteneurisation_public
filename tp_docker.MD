@@ -47,7 +47,10 @@ git push -u origin main
 - Construire l'image en local, crée un conteneur l'utilisant et accéder à l'app
 
 *********************
-→ À compléter : Fournir les commandes utilisées
+→ À compléter :
+docker build -t mon-react-app .
+docker run -p 3000:5173 --name test-react mon-react-app
+docker-compose up
 **********************
 
 - Écrire un fichier `docker-compose.yml` permettant de déployer cette application
@@ -55,7 +58,7 @@ git push -u origin main
 - Publier votre image sur Dockerhub
 
 **********************
-→ À compléter : Fournir l'URL de votre image sur Dockerhub
+→ À compléter : https://hub.docker.com/r/antoinecombalot/react-hello v1
 **********************
 
 - Optimiser la taille de votre image avec `docker-slim` et la publier sur Dockerhub
@@ -63,7 +66,10 @@ git push -u origin main
    - Il semble ne pas être disponible sous Windows. Si c'est votre cas, passer la question.
 
 **********************
-→ À compléter : Fournir URL de votre image slim sur Dockerhub et la taille avant/après optimisation
+→ À compléter : 
+Avant optimisation : 179MB
+Après optimisation : 129MB
+https://hub.docker.com/r/antoinecombalot/react-hello v2 (slim)
 **********************
 
 - Modifier votre fichier `docker-compose.yml` pour que votre app utilise l'image Dockerhub
