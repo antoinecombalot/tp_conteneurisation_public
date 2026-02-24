@@ -1,0 +1,46 @@
+services:
+  # Base de données
+  database:
+    image: mariadb:10.11
+    environment:
+      MYSQL_ROOT_PASSWORD: ${MYSQL_ROOT_PASSWORD}
+      MYSQL_DATABASE: ${MYSQL_DATABASE}
+      MYSQL_USER: ${MYSQL_USER}
+      MYSQL_PASSWORD: ${MYSQL_PASSWORD}
+    volumes:
+      - db_data:/var/lib/mysql
+    networks:
+      - backend-net
+
+  # Backend
+  backend:
+    build: ./react-hello2/backend
+    environment:
+      DB_HOST: database
+      DB_USER: ${MYSQL_USER}
+      DB_PASSWORD: ${MYSQL_PASSWORD}
+      DB_NAME: ${MYSQL_DATABASE}
+    networks:
+      - backend-net
+      - frontend-net
+    depends_on:
+      - database
+
+  # Frontend  
+  frontend:
+    build: ./react-hello2/frontend
+    ports:
+      - "3000:4173"
+    networks:
+      - frontend-net
+    depends_on:
+      - backend
+
+# Volume pour les données
+volumes:
+  db_data:
+
+# Réseaux pour isoler
+networks:
+  frontend-net:
+  backend-net:
