@@ -103,7 +103,7 @@ https://hub.docker.com/r/antoinecombalot/react-hello v2 (slim)
    - Note : Il peut être utile de passer par un multi stage build
 - D'éventuels changements dans le code source peuvent être nécessaires pour que l'application fonctionne correctement en conteneurisé
 
-- Supprimer les containers, est-ce que les données sont toujours là ?
+- Supprimer les containers, est-ce que les données sont toujours là ? Oui
   - Utiliser des volumes si ce n'est pas le cas
 
 - Réduisez au maximum les possibilités de contact entre les conteneurs
