@@ -6,11 +6,11 @@ export default function App() {
   const [time, setTime] = useState("loading...");
   const [items, setItems] = useState([]);
   useEffect(() => {
-    fetch(`${API_URL}/time`)
+    fetch(`${API_URL}/api/time`)
       .then((r) => r.json())
       .then((d) => setTime(d.serverTime))
       .catch(() => setTime("Error : Cannot connect to Backend API"));
-    fetch(`${API_URL}/items`)
+    fetch(`${API_URL}/api/items`)
       .then((r) => r.json())
       .then((d) => setItems(d.items || [{ id: 1, name: "Erreur lecture BDD" }]))
       .catch(() => setTime("Error : Cannot connect to Backend API"));

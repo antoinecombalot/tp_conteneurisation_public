@@ -1,46 +1,60 @@
 services:
-  # Base de données
-  database:
+  # Base de données MariaDB
+  db:
     image: mariadb:10.11
+    container_name: reactapp_db
     environment:
-      MYSQL_ROOT_PASSWORD: ${MYSQL_ROOT_PASSWORD}
-      MYSQL_DATABASE: ${MYSQL_DATABASE}
-      MYSQL_USER: ${MYSQL_USER}
-      MYSQL_PASSWORD: ${MYSQL_PASSWORD}
+      MYSQL_ROOT_PASSWORD: dzaidoizajd
+      MYSQL_DATABASE: reacthello2
+      MYSQL_USER: app
+      MYSQL_PASSWORD: mysecretpassword
+      MYSQL_ALLOW_EMPTY_PASSWORD: "yes"
     volumes:
       - db_data:/var/lib/mysql
+      - ./init.sql:/docker-entrypoint-initdb.d/init.sql:ro
     networks:
-      - backend-net
+      - backend-network
+    restart: unless-stopped
 
-  # Backend
+  # Backend API
   backend:
     build: ./react-hello2/backend
+    container_name: reactapp_backend
+    ports:
+      - "3000:3000"
     environment:
-      DB_HOST: database
-      DB_USER: ${MYSQL_USER}
-      DB_PASSWORD: ${MYSQL_PASSWORD}
-      DB_NAME: ${MYSQL_DATABASE}
+      DB_HOST: db
+      DB_PORT: 3306
+      DB_USER: app
+      DB_PASSWORD: mysecretpassword
+      DB_DATABASE: reacthello2
+      DB_NAME: reacthello2
+      NODE_ENV: production
+      PORT: 3000
     networks:
-      - backend-net
-      - frontend-net
+      - backend-network
+      - frontend-network
     depends_on:
-      - database
+      - db
+    restart: unless-stopped
 
-  # Frontend  
+  # Frontend React
   frontend:
     build: ./react-hello2/frontend
+    container_name: reactapp_frontend
     ports:
-      - "3000:4173"
+      - "4000:80"
     networks:
-      - frontend-net
+      - frontend-network
     depends_on:
       - backend
+    restart: unless-stopped
 
-# Volume pour les données
 volumes:
   db_data:
 
-# Réseaux pour isoler
 networks:
-  frontend-net:
-  backend-net:
+  frontend-network:
+    driver: bridge
+  backend-network:
+    driver: bridge

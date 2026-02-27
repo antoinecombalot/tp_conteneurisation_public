@@ -11,7 +11,8 @@ class AppModule {}
 
 async function bootstrap() {
 
-  config({ path: resolve(__dirname, '../../.env') });
+  //config({ path: resolve(__dirname, '../../.env') });
+  config();	
   const raw = process.env.BACKEND_PORT;
   const port = Number.isFinite(Number(raw)) && Number(raw) > 0 ? Number(raw) : 3000;
 
@@ -19,6 +20,8 @@ async function bootstrap() {
 
   const app = await NestFactory.create(AppModule, { logger: false });
   app.enableCors({ origin: true });
+ 
+  app.setGlobalPrefix('api');
 
   await app.listen(port, '0.0.0.0');
 }
